@@ -10,11 +10,15 @@ public class InputHandler : MonoBehaviour
     private InputAction jumpAction;
     private InputAction interactionAction;
     private InputAction crouchAction;
+    private InputAction sprintAction;
+    private InputAction scrollAction;
 
     public Vector2 MovementInput { get; private set; }
     public Vector2 MouseInput { get; private set; }
+    public Vector2 ScrollInput { get; private set; }
     public bool JumpTriggered { get; private set; }
     public bool crouchTriggered { get; private set; }
+    public bool sprintTriggered { get; private set; }
     public bool interactionTriggered { get; private set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -26,7 +30,9 @@ public class InputHandler : MonoBehaviour
         lookAction = mapReference.FindAction("Look");
         jumpAction = mapReference.FindAction("Jump");
         crouchAction = mapReference.FindAction("Crouch");
+        sprintAction = mapReference.FindAction("Sprint");
         interactionAction = mapReference.FindAction("Interact");
+        scrollAction = mapReference.FindAction("Zoom");
 
         SubscribeActionValuesToInputEvents();
     }
@@ -39,6 +45,9 @@ public class InputHandler : MonoBehaviour
         lookAction.performed += inputInfo => MouseInput = inputInfo.ReadValue<Vector2>();
         lookAction.canceled += inputInfo => MouseInput = Vector2.zero;
 
+        scrollAction.performed += inputInfo => ScrollInput = inputInfo.ReadValue<Vector2>();
+        scrollAction.canceled += inputInfo => ScrollInput = Vector2.zero;
+
         jumpAction.performed += inputInfo => JumpTriggered = true;
         jumpAction.canceled += inputInfo => JumpTriggered = false;
 
@@ -47,5 +56,8 @@ public class InputHandler : MonoBehaviour
 
         interactionAction.performed += inputInfo => interactionTriggered = true;
         interactionAction.canceled += inputInfo => interactionTriggered = false;
+
+        sprintAction.performed += inputInfo => sprintTriggered = true;
+        sprintAction.canceled += inputInfo => sprintTriggered = false;
     }
 }
