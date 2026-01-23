@@ -1,15 +1,25 @@
 using LineworkLite.FreeOutline;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+
+public interface IInteractable
+{
+    public void Interact();
+}
 
 public class InteractionSystem : MonoBehaviour
 {
     [SerializeField] private GameObject Camera;
     [SerializeField] private FreeOutlineSettings OutlineSettings;
 
+    private List<EvidenceDetails> CollectedEvidence = new List<EvidenceDetails>();
+
     private GameObject CurrentSelectedInteraction;
     private LayerMask layerMask;
     private int PreviousLayer;
+
+    public InputHandler PlayerInput;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,6 +28,37 @@ public class InteractionSystem : MonoBehaviour
         layerMask = LayerMask.GetMask("PlayerModel", "PlayerHitbox");
     }
 
+    void PickupEvidence(GameObject Evi)
+    {
+        EvidenceDetails Details = Evi.GetComponent<EvidenceScript>().Evidence;
+
+        Details.CurrentlyConnectedEvidence = null;
+        Details.CurrentPosition = new Vector2(Random.Range(-10,10), Random.Range(-10, 10));
+        CollectedEvidence.Add(Details);
+
+        Destroy(Evi);
+    }
+
+    void Interact()
+    {
+        RaycastHit hit;
+        Vector3 OffsetPosition = transform.position + (transform.forward * 1);
+
+        if (Physics.Raycast(OffsetPosition, transform.forward, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.gameObject.TryGetComponent(out IInteractable intObj))
+            {
+                intObj.Interact();
+            }
+            else
+            {
+                if (hit.transform.tag == "Evidence")
+                {
+                    PickupEvidence(hit.collider.gameObject);
+                }
+            }
+        }
+    }
     void CheckInteraction()
     {
         RaycastHit hit;
@@ -27,9 +68,9 @@ public class InteractionSystem : MonoBehaviour
 
         if (Physics.Raycast(OffsetPosition, transform.forward, out hit, Mathf.Infinity))
         {
-            if (hit.transform.tag=="Interaction" || hit.transform.tag=="Evidence")
+            if (hit.transform.tag == "Interaction" || hit.transform.tag == "Evidence")
             {
-                if (CurrentSelectedInteraction==null)
+                if (CurrentSelectedInteraction == null)
                 {
                     OutlineSettings.Outlines[0].width = 0;
 
@@ -65,6 +106,10 @@ public class InteractionSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerInput.interactionTriggered)
+        {
+            Interact();
+        }
         CheckInteraction();
     }
 }

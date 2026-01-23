@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float XSensitivity;
     public float YSensitivity;
 
-    public float CurrentScroll=35f;
+    public float CurrentScroll=60f;
 
     private float yFacing;
 
@@ -74,8 +74,8 @@ public class PlayerMovement : MonoBehaviour
         float xRotation = (MouseInput.x * (XSensitivity*FOVModifier) ) * Time.deltaTime;
         float yRotation = (MouseInput.y * (YSensitivity * FOVModifier)) * Time.deltaTime;
 
-        float ScrollSpeed = (ScrollInput.y * Time.deltaTime)*1200;
-        CurrentScroll = Mathf.Clamp(CurrentScroll - ScrollSpeed, 1, 30);
+        float ScrollSpeed = (ScrollInput.y * Time.deltaTime)*1400;
+        CurrentScroll = Mathf.Clamp(CurrentScroll - ScrollSpeed, 1, 45);
 
         transform.Rotate(Vector3.up, xRotation);
 
