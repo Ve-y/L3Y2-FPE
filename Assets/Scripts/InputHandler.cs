@@ -35,7 +35,7 @@ public class InputHandler : MonoBehaviour
         sprintAction = mapReference.FindAction("Sprint");
         interactionAction = mapReference.FindAction("Interact");
         scrollAction = mapReference.FindAction("Zoom");
-        evidenceAction = mapReference.FindAction("Move Evidence");
+        evidenceAction = mapReference.FindAction("MoveEvidence");
 
         SubscribeActionValuesToInputEvents();
     }
