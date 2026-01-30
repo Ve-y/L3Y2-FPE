@@ -1,4 +1,5 @@
 using LineworkLite.FreeOutline;
+using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -15,6 +16,7 @@ public class InteractionSystem : MonoBehaviour
     [SerializeField] private FreeOutlineSettings OutlineSettings;
 
     public GameObject EvidencePiecePrefab;
+    Canvas CurrentUI;
 
     private List<EvidenceDetails> CollectedEvidence = new List<EvidenceDetails>();
     public float CorrectEvidence;
@@ -33,6 +35,7 @@ public class InteractionSystem : MonoBehaviour
     void Start()
     {
         CurrentSelectedInteraction = null;
+        CurrentUI = GameObject.Find("UI").GetComponent<Canvas>();
         layerMask = LayerMask.GetMask("PlayerModel", "PlayerHitbox");
     }
 
@@ -61,6 +64,25 @@ public class InteractionSystem : MonoBehaviour
             Debug.Log("You won!!");
         }
     }
+
+    void NavigateEvidenceScreen()
+    {
+        Vector2 MouseMovement = PlayerInput.MouseInput;
+        bool Navigating = PlayerInput.lookingAround;
+
+        if (Navigating)
+        {
+            foreach (Transform child in CurrentUI.transform)
+            {
+                if (child.gameObject.name != "EvidenceScreen" && child.gameObject.name != "Hint")
+                {
+                    RectTransform trans = child.GetComponent<RectTransform>();
+                    trans.position += new Vector3(MouseMovement.x, MouseMovement.y, 0);
+                }
+            }
+        }
+    }
+
     void OpenEvidenceScreen()
     {
         Canvas UI = GameObject.Find("UI").GetComponent<Canvas>();
@@ -71,7 +93,7 @@ public class InteractionSystem : MonoBehaviour
             UI.enabled = false;
             foreach (Transform child in UI.transform)
             {
-                if (child.gameObject.name != "EvidenceScreen")
+                if (child.gameObject.name != "EvidenceScreen" && child.gameObject.name != "Hint")
                 {
                     GameObject.Destroy(child.gameObject);
                 }
@@ -198,5 +220,6 @@ public class InteractionSystem : MonoBehaviour
             Interact();
         }
         CheckInteraction();
+        NavigateEvidenceScreen();
     }
 }

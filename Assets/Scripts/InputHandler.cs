@@ -12,6 +12,7 @@ public class InputHandler : MonoBehaviour
     private InputAction crouchAction;
     private InputAction sprintAction;
     private InputAction scrollAction;
+    private InputAction evidenceAction;
 
     public Vector2 MovementInput { get; private set; }
     public Vector2 MouseInput { get; private set; }
@@ -20,6 +21,7 @@ public class InputHandler : MonoBehaviour
     public bool crouchTriggered { get; private set; }
     public bool sprintTriggered { get; private set; }
     public bool interactionTriggered { get; private set; }
+    public bool lookingAround { get; private set; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -33,6 +35,7 @@ public class InputHandler : MonoBehaviour
         sprintAction = mapReference.FindAction("Sprint");
         interactionAction = mapReference.FindAction("Interact");
         scrollAction = mapReference.FindAction("Zoom");
+        evidenceAction = mapReference.FindAction("Move Evidence");
 
         SubscribeActionValuesToInputEvents();
     }
@@ -59,5 +62,8 @@ public class InputHandler : MonoBehaviour
 
         sprintAction.performed += inputInfo => sprintTriggered = true;
         sprintAction.canceled += inputInfo => sprintTriggered = false;
+
+        evidenceAction.performed += inputInfo => lookingAround = true;
+        evidenceAction.canceled += inputInfo => lookingAround = false;
     }
 }
