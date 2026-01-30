@@ -10,7 +10,7 @@ public class EvidenceDetails : ScriptableObject
     public string ConnectingEvidence;
     public string Description;
 
-    public Sprite EvidenceImage;
+    public Texture EvidenceImage;
 
     public GameObject CurrentlyConnectedEvidence;
     public Vector2 CurrentPosition;

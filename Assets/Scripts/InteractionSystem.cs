@@ -1,7 +1,9 @@
 using LineworkLite.FreeOutline;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public interface IInteractable
 {
@@ -10,14 +12,20 @@ public interface IInteractable
 
 public class InteractionSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject Camera;
     [SerializeField] private FreeOutlineSettings OutlineSettings;
 
+    public GameObject EvidencePiecePrefab;
+
     private List<EvidenceDetails> CollectedEvidence = new List<EvidenceDetails>();
+    public float CorrectEvidence;
 
     private GameObject CurrentSelectedInteraction;
     private LayerMask layerMask;
     private int PreviousLayer;
+
+    public GameObject EvidenceCard;
+
+    public string CurrentEvidenceLinking;
 
     public InputHandler PlayerInput;
 
@@ -28,15 +36,93 @@ public class InteractionSystem : MonoBehaviour
         layerMask = LayerMask.GetMask("PlayerModel", "PlayerHitbox");
     }
 
+    public void ButtonCheck(Button ClickedButton, EvidenceDetails Details)
+    {
+        if (CurrentEvidenceLinking!=null && CurrentEvidenceLinking!="")
+        {
+            EvidencePiece LinkedEvidence = GameObject.Find(CurrentEvidenceLinking).GetComponent<EvidencePiece>();
+
+            LinkedEvidence.LinkEvidence(ClickedButton.gameObject,Details);
+            CurrentEvidenceLinking = "";
+        }
+        else
+        {
+            EvidencePiece clickedPiece = ClickedButton.transform.parent.GetComponent<EvidencePiece>();
+
+            CurrentEvidenceLinking = Details.EvidenceID;
+            clickedPiece.BeingLinked = true;
+
+            clickedPiece.StartLinking();
+        }
+
+        Debug.Log(CorrectEvidence);
+        if (CorrectEvidence==CollectedEvidence.Count-1)
+        {
+            Debug.Log("You won!!");
+        }
+    }
+    void OpenEvidenceScreen()
+    {
+        Canvas UI = GameObject.Find("UI").GetComponent<Canvas>();
+        CorrectEvidence = 0;
+
+        if (UI.enabled)
+        {
+            UI.enabled = false;
+            foreach (Transform child in UI.transform)
+            {
+                if (child.gameObject.name != "EvidenceScreen")
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
+            }
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            UI.enabled = true;
+
+            foreach (EvidenceDetails Evi in CollectedEvidence)
+            {
+                GameObject ClonedPrefab = Instantiate(EvidencePiecePrefab);
+                EvidencePiece PieceScript = ClonedPrefab.GetComponent<EvidencePiece>();
+
+                PieceScript.Stats = Evi;
+                ClonedPrefab.transform.SetParent(UI.transform);
+
+                PieceScript.SetupPiece();
+                Debug.Log(Evi);
+            }
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
     void PickupEvidence(GameObject Evi)
     {
         EvidenceDetails Details = Evi.GetComponent<EvidenceScript>().Evidence;
 
         Details.CurrentlyConnectedEvidence = null;
-        Details.CurrentPosition = new Vector2(Random.Range(-10,10), Random.Range(-10, 10));
+        Details.CurrentPosition = new Vector2(Random.Range(-350,350), Random.Range(-150, 150));
         CollectedEvidence.Add(Details);
 
-        Destroy(Evi);
+        Evi.tag="Untagged";
+        GameObject InstancedTag = Instantiate(EvidenceCard);
+        InstancedTag.transform.Find("Card").Find("TextPlane").GetComponent<TMP_Text>().text = CollectedEvidence.Count.ToString();
+
+        if (Evi.transform.Find("CardPlacement"))
+        {
+            Transform Placement = Evi.transform.Find("CardPlacement");
+
+            InstancedTag.transform.position = Placement.position;
+            InstancedTag.transform.rotation = Placement.rotation * Quaternion.Euler(new Vector3(0, -90, -90));
+            InstancedTag.transform.SetParent(Placement);
+        }
+        else
+        {
+            InstancedTag.transform.position = Evi.transform.position;
+            InstancedTag.transform.rotation = Evi.transform.rotation * Quaternion.Euler(new Vector3(0, -90, -90));
+            InstancedTag.transform.SetParent(Evi.transform);
+        }
     }
 
     void Interact()
@@ -49,6 +135,7 @@ public class InteractionSystem : MonoBehaviour
             if (hit.collider.gameObject.TryGetComponent(out IInteractable intObj))
             {
                 intObj.Interact();
+                OpenEvidenceScreen();
             }
             else
             {
