@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public interface IInteractable
@@ -21,6 +22,7 @@ public class InteractionSystem : MonoBehaviour
     private List<EvidenceDetails> CollectedEvidence = new List<EvidenceDetails>();
     public float CorrectEvidence;
 
+    public GameObject DialoguePrefab;
     private GameObject CurrentSelectedInteraction;
     private LayerMask layerMask;
     private int PreviousLayer;
@@ -44,6 +46,17 @@ public class InteractionSystem : MonoBehaviour
         if (CurrentEvidenceLinking!=null && CurrentEvidenceLinking!="")
         {
             EvidencePiece LinkedEvidence = GameObject.Find(CurrentEvidenceLinking).GetComponent<EvidencePiece>();
+            if (LinkedEvidence.GetComponent<EvidencePiece>().Stats.DialogueOnConnect.Count>0)
+            {
+                foreach (EvidenceDialogue PossibleDialogue in LinkedEvidence.GetComponent<EvidencePiece>().Stats.DialogueOnConnect)
+                {
+                    if (PossibleDialogue.EvidenceID==Details.EvidenceID)
+                    {
+                        GameObject DialogueBox = Instantiate(DialoguePrefab);
+                        DialogueBox.GetComponent<DialogueScript>().IntendedDialogue = PossibleDialogue.DialogueToSay;
+                    }
+                }
+            }
 
             LinkedEvidence.LinkEvidence(ClickedButton.gameObject,Details);
             CurrentEvidenceLinking = "";
@@ -70,15 +83,23 @@ public class InteractionSystem : MonoBehaviour
         Vector2 MouseMovement = PlayerInput.MouseInput;
         bool Navigating = PlayerInput.lookingAround;
 
-        if (Navigating)
+        if (CurrentUI.enabled)
         {
-            foreach (Transform child in CurrentUI.transform)
+            if (Navigating)
             {
-                if (child.gameObject.name != "EvidenceScreen" && child.gameObject.name != "Hint")
+                Cursor.lockState = CursorLockMode.Confined;
+                foreach (Transform child in CurrentUI.transform)
                 {
-                    RectTransform trans = child.GetComponent<RectTransform>();
-                    trans.position += new Vector3(MouseMovement.x, MouseMovement.y, 0);
+                    if (child.gameObject.name != "EvidenceScreen" && child.gameObject.name != "Hint")
+                    {
+                        RectTransform trans = child.GetComponent<RectTransform>();
+                        trans.position += new Vector3(MouseMovement.x, MouseMovement.y, 0);
+                    }
                 }
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
             }
         }
     }

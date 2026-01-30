@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f73c7f19712eeb649aa3d92292607c0f, type: 3}
-  m_Name: Test 1
+  m_Name: ID
   m_EditorClassIdentifier: 
-  EvidenceName: Knife
-  EvidenceID: ThisIsAlsoATest
-  ConnectingEvidence: ThisTooIsATest
-  Description: SOmething something\naahh im detecting\ahhh
-  EvidenceImage: {fileID: 2800000, guid: 0d7b03320f6a4fb42b0117fdf8e030cd, type: 3}
+  EvidenceName: ID Card
+  EvidenceID: ThisTooIsATest
+  ConnectingEvidence: ThisIsATest
+  Description: An ID card belonging to someone who was possibly attacked here..\nIt
+    has a large knife slash across the surface..
+  EvidenceImage: {fileID: 2800000, guid: da588b5ca157f6347b987d7626ac948f, type: 3}
   CurrentlyConnectedEvidence: {fileID: 0}
-  CurrentPosition: {x: 54, y: 97}
+  CurrentPosition: {x: 266, y: -108}
+  DialogueOnConnect: []

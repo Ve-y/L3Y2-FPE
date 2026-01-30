@@ -1,3 +1,5 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EvidenceDetails", menuName = "ScriptableObjects/EvidenceDetails", order = 1)]
@@ -14,4 +16,6 @@ public class EvidenceDetails : ScriptableObject
 
     public GameObject CurrentlyConnectedEvidence;
     public Vector2 CurrentPosition;
+
+    public List<EvidenceDialogue> DialogueOnConnect = new List<EvidenceDialogue>();
 }

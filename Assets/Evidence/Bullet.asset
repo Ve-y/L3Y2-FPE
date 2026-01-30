@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f73c7f19712eeb649aa3d92292607c0f, type: 3}
-  m_Name: Test
+  m_Name: Bullet
   m_EditorClassIdentifier: 
-  EvidenceName: Bulllet
+  EvidenceName: Bullet
   EvidenceID: ThisIsATest
-  ConnectingEvidence: ThisIsAlsoATest
-  Description: BlahblahBlahblah\nBlahblahBlahblah
+  ConnectingEvidence: FinalTest
+  Description: A pile of bullets was found scattered at floor of the scene.\nObviously
+    fired from something, no?
   EvidenceImage: {fileID: 2800000, guid: 152cdc93d4c462041bc6cf6f821f26b2, type: 3}
   CurrentlyConnectedEvidence: {fileID: 0}
-  CurrentPosition: {x: 105, y: 132}
+  CurrentPosition: {x: -207, y: 141}
+  DialogueOnConnect:
+  - {fileID: 11400000, guid: 5f8232e8eca012049b99c384d251679d, type: 2}
