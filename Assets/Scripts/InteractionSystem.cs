@@ -74,7 +74,12 @@ public class InteractionSystem : MonoBehaviour
         Debug.Log(CorrectEvidence);
         if (CorrectEvidence==CollectedEvidence.Count-1)
         {
-            Debug.Log("You won!!");
+            CurrentUI.enabled = false;
+
+            InterrogationHandler InterHandler = GameObject.Find("GameHandler").GetComponent<InterrogationHandler>();
+            InterHandler.BeginInterrogation();
+
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

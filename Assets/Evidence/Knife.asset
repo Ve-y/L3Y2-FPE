@@ -19,5 +19,8 @@ MonoBehaviour:
     a surface.
   EvidenceImage: {fileID: 2800000, guid: 0d7b03320f6a4fb42b0117fdf8e030cd, type: 3}
   CurrentlyConnectedEvidence: {fileID: 0}
-  CurrentPosition: {x: 273, y: 149}
-  DialogueOnConnect: []
+  CurrentPosition: {x: -318, y: 40}
+  DialogueOnConnect:
+  - {fileID: 11400000, guid: 90bdf20bd56e83641839d0dfa65b023c, type: 2}
+  - {fileID: 11400000, guid: faa4938b9dbfb694fba110199f13a006, type: 2}
+  - {fileID: 11400000, guid: 80e9a2b71e3d8fd4ab7a1d8fce454f69, type: 2}

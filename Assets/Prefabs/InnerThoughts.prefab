@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5612668832094360151}
   - component: {fileID: 3190831675788244990}
   - component: {fileID: 3585103312679862962}
+  - component: {fileID: -9046643885150728388}
   m_Layer: 0
   m_Name: InnerThoughts
   m_TagString: Untagged
@@ -174,3 +175,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IntendedDialogue: Test
   DialogueBox: {fileID: 5612668832094360151}
+--- !u!225 &-9046643885150728388
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2458189635414274917}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0

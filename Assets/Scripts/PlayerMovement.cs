@@ -6,6 +6,9 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Vector3 teleport;
+    private float MovementDebounce;
+
     private float MovementVelocity;
     private float Gravity = 10.14f;
     private float FallingSpeed = 0f;
@@ -188,9 +191,23 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Movement();
-        Crouch();
-        Jump();
-        Look();
+        if (MovementDebounce<Time.time)
+        {
+            Movement();
+            Crouch();
+            Jump();
+            Look();
+        }
+
+        if (teleport!=new Vector3(0,0,0))
+        {
+            MovementDebounce = Time.time + 0.25f;
+
+            transform.position = teleport;
+            if (transform.position==teleport)
+            {
+                teleport = new Vector3(0, 0, 0);
+            }
+        }
     }
 }

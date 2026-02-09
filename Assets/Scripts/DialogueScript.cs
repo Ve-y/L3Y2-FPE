@@ -23,12 +23,20 @@ public class DialogueScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float x = Input.mousePosition.x;
+        float y = Input.mousePosition.y;
+        DialogueBox.GetComponent<RectTransform>().position = new Vector3(x, y, 0);
+
         if (DialogueBox.text != IntendedDialogue && Time.time>Cooldown)
         {
             CurrentLetter += 1;
-            Cooldown = Time.time + 0.1f;
+            Cooldown = Time.time + 0.02f;
 
             DialogueBox.text = IntendedDialogue.Substring(0,CurrentLetter-1);
+            if (DialogueBox.text == IntendedDialogue)
+            {
+                Cooldown = Time.time + 2.25f;
+            }
         }
         if (DialogueBox.text==IntendedDialogue && Time.time > Cooldown)
         {

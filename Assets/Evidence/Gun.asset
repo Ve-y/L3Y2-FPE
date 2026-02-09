@@ -19,6 +19,8 @@ MonoBehaviour:
     loaded.\nStrange..
   EvidenceImage: {fileID: 2800000, guid: 20319b34d0926ad44aad2422c9c26c05, type: 3}
   CurrentlyConnectedEvidence: {fileID: 0}
-  CurrentPosition: {x: -148, y: 116}
+  CurrentPosition: {x: -147, y: 147}
   DialogueOnConnect:
   - {fileID: 11400000, guid: 08a2368f9c81c1643a2a5db0d460f1b4, type: 2}
+  - {fileID: 11400000, guid: c9c9ae9ab9b79f94eb42a6669cbf3bb0, type: 2}
+  - {fileID: 11400000, guid: 280993720064e1f47bad23f80d2bd628, type: 2}

@@ -19,5 +19,8 @@ MonoBehaviour:
     has a large knife slash across the surface..
   EvidenceImage: {fileID: 2800000, guid: da588b5ca157f6347b987d7626ac948f, type: 3}
   CurrentlyConnectedEvidence: {fileID: 0}
-  CurrentPosition: {x: 266, y: -108}
-  DialogueOnConnect: []
+  CurrentPosition: {x: -338, y: -61}
+  DialogueOnConnect:
+  - {fileID: 11400000, guid: 40d551d9610ef2f47b820a8cbfe32dff, type: 2}
+  - {fileID: 11400000, guid: 8c9416afe4719b64a985731e0a3121c3, type: 2}
+  - {fileID: 11400000, guid: 84a47f186f8c07544beec03e8e60eeda, type: 2}

@@ -19,6 +19,8 @@ MonoBehaviour:
     fired from something, no?
   EvidenceImage: {fileID: 2800000, guid: 152cdc93d4c462041bc6cf6f821f26b2, type: 3}
   CurrentlyConnectedEvidence: {fileID: 0}
-  CurrentPosition: {x: -207, y: 141}
+  CurrentPosition: {x: -125, y: 124}
   DialogueOnConnect:
   - {fileID: 11400000, guid: 5f8232e8eca012049b99c384d251679d, type: 2}
+  - {fileID: 11400000, guid: 280993720064e1f47bad23f80d2bd628, type: 2}
+  - {fileID: 11400000, guid: 68c018751e1602b43aebc234934e0cb9, type: 2}
